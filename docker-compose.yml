@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  alchemy:
+    build: .
+    image: alchemy:latest
+    container_name: alchemy
+    ports:
+      - "8000:8000"
+    environment:
+      - LOAD_DOCUMENTS=true
+      - LOAD_MEDIA=true
+      - LOAD_WEB=true
+      - WHISPER_COMPUTE_TYPE=float16
+      - DOCLING_TABLE_MODE=accurate
+      # Uncomment for speaker diarization:
+      # - DIARIZATION_ENABLED=true
+      # - HUGGINGFACE_TOKEN=your_token_here
+    volumes:
+      - model_cache:/root/.cache       # persist downloaded model weights
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+
+  # Optional: lightweight Redis for external job persistence
+  # Uncomment if you want jobs to survive server restarts
+  # redis:
+  #   image: redis:7-alpine
+  #   ports:
+  #     - "6379:6379"
+
+volumes:
+  model_cache:

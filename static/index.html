@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alchemy — Transform Any Data</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚗️</text></svg>">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- ─── Sidebar ──────────────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <span class="logo-icon">⚗️</span>
+                <span class="logo-text">Alchemy</span>
+            </div>
+            <span class="version-badge">v2.0</span>
+        </div>
+
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-tab="documents" onclick="switchTab('documents')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
+                Documents
+            </button>
+            <button class="nav-tab" data-tab="images" onclick="switchTab('images')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
+                Images
+            </button>
+            <button class="nav-tab" data-tab="audio" onclick="switchTab('audio')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                Audio
+            </button>
+            <button class="nav-tab" data-tab="video" onclick="switchTab('video')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23,7 16,12 23,17 23,7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                Video
+            </button>
+            <button class="nav-tab" data-tab="web" onclick="switchTab('web')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                Web
+            </button>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="status-indicator" id="serverStatus">
+                <span class="status-dot"></span>
+                <span class="status-text">Checking...</span>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </button>
+        </div>
+    </aside>
+
+    <!-- ─── Main Content ─────────────────────────────────────────────────── -->
+    <main class="main">
+        <!-- Documents Tab -->
+        <section class="tab-content active" id="tab-documents">
+            <div class="tab-header">
+                <h1>📄 Documents</h1>
+                <p>Parse PDF, DOCX, PPTX, XLSX, and HTML files with Docling AI</p>
+            </div>
+            <div class="upload-zone" id="dropzone-documents" data-endpoint="/parse/document">
+                <div class="upload-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                </div>
+                <h3>Drop files here or click to browse</h3>
+                <p class="upload-hint">PDF, DOCX, PPTX, XLSX, HTML — up to 100MB</p>
+                <input type="file" class="file-input" id="file-documents" accept=".pdf,.docx,.doc,.pptx,.ppt,.html,.htm,.xlsx" multiple hidden>
+            </div>
+            <div class="options-bar">
+                <label class="option-toggle">
+                    <input type="checkbox" id="opt-tables" checked> Extract Tables
+                </label>
+                <label class="option-toggle">
+                    <input type="checkbox" id="opt-images" checked> Extract Images
+                </label>
+                <select id="opt-format" class="option-select">
+                    <option value="markdown">Markdown</option>
+                    <option value="json">JSON</option>
+                    <option value="chunks">Chunks (RAG)</option>
+                </select>
+            </div>
+            <div class="results-area" id="results-documents"></div>
+        </section>
+
+        <!-- Images Tab -->
+        <section class="tab-content" id="tab-images">
+            <div class="tab-header">
+                <h1>🖼️ Images</h1>
+                <p>OCR, captioning, and visual Q&A powered by Qwen2-VL</p>
+            </div>
+            <div class="upload-zone" id="dropzone-images" data-endpoint="/parse/image">
+                <div class="upload-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
+                </div>
+                <h3>Drop an image here</h3>
+                <p class="upload-hint">PNG, JPG, WEBP, GIF</p>
+                <input type="file" class="file-input" id="file-images" accept="image/*" hidden>
+            </div>
+            <div class="options-bar">
+                <select id="opt-image-task" class="option-select">
+                    <option value="detailed_caption">Detailed Caption</option>
+                    <option value="caption">Short Caption</option>
+                    <option value="ocr">OCR (Text Extraction)</option>
+                    <option value="table_extraction">Table Extraction</option>
+                    <option value="object_detection">Object Detection</option>
+                    <option value="qa">Visual Q&A</option>
+                </select>
+                <input type="text" id="opt-image-prompt" class="option-input" placeholder="Custom prompt (for Q&A)..." style="display:none">
+            </div>
+            <div class="image-preview-area">
+                <div class="image-preview" id="image-preview"></div>
+                <div class="results-area" id="results-images"></div>
+            </div>
+        </section>
+
+        <!-- Audio Tab -->
+        <section class="tab-content" id="tab-audio">
+            <div class="tab-header">
+                <h1>🎙️ Audio</h1>
+                <p>Transcribe audio with Distil-Whisper Large-v3</p>
+            </div>
+            <div class="upload-zone" id="dropzone-audio" data-endpoint="/parse/audio">
+                <div class="upload-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                </div>
+                <h3>Drop an audio file here</h3>
+                <p class="upload-hint">MP3, WAV, FLAC, AAC, OGG, M4A</p>
+                <input type="file" class="file-input" id="file-audio" accept=".mp3,.wav,.flac,.aac,.ogg,.m4a" hidden>
+            </div>
+            <div class="options-bar">
+                <input type="text" id="opt-audio-lang" class="option-input" placeholder="Language (auto-detect)">
+                <label class="option-toggle">
+                    <input type="checkbox" id="opt-diarize"> Speaker Diarization
+                </label>
+            </div>
+            <div class="results-area" id="results-audio"></div>
+        </section>
+
+        <!-- Video Tab -->
+        <section class="tab-content" id="tab-video">
+            <div class="tab-header">
+                <h1>🎬 Video</h1>
+                <p>Transcribe video audio and extract keyframes</p>
+            </div>
+            <div class="upload-zone" id="dropzone-video" data-endpoint="/parse/video">
+                <div class="upload-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23,7 16,12 23,17 23,7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                </div>
+                <h3>Drop a video file here</h3>
+                <p class="upload-hint">MP4, MKV, AVI, MOV, WEBM</p>
+                <input type="file" class="file-input" id="file-video" accept=".mp4,.mkv,.avi,.mov,.webm" hidden>
+            </div>
+            <div class="options-bar">
+                <input type="text" id="opt-video-lang" class="option-input" placeholder="Language (auto-detect)">
+                <label class="option-toggle">
+                    <input type="checkbox" id="opt-video-diarize"> Speaker Diarization
+                </label>
+                <label class="option-toggle">
+                    <input type="checkbox" id="opt-video-frames"> Extract Keyframes
+                </label>
+            </div>
+            <div class="results-area" id="results-video"></div>
+        </section>
+
+        <!-- Web Tab -->
+        <section class="tab-content" id="tab-web">
+            <div class="tab-header">
+                <h1>🌐 Web</h1>
+                <p>Crawl and extract content from any website with Crawl4AI</p>
+            </div>
+            <div class="web-input-area">
+                <div class="url-input-group">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    <input type="url" id="web-url" class="url-input" placeholder="https://example.com">
+                    <button class="btn-primary" onclick="parseWeb()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13,17 18,12 13,7"/><polyline points="6,17 11,12 6,7"/></svg>
+                        Crawl
+                    </button>
+                </div>
+            </div>
+            <div class="options-bar">
+                <select id="opt-web-depth" class="option-select">
+                    <option value="1">Depth: 1 (single page)</option>
+                    <option value="2">Depth: 2</option>
+                    <option value="3">Depth: 3</option>
+                </select>
+                <input type="text" id="opt-web-selector" class="option-input" placeholder="CSS selector (optional)">
+            </div>
+            <div class="results-area" id="results-web"></div>
+        </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

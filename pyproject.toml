@@ -1,0 +1,78 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "alchemy"
+version = "2.0.0"
+description = "Transform any data into structured, LLM-ready output — documents, images, audio, video, and web."
+readme = "README.md"
+license = { text = "GPL-3.0" }
+requires-python = ">=3.10"
+authors = [
+    { name = "Your Name", email = "you@example.com" }
+]
+keywords = ["ocr", "document-parsing", "rag", "llm", "multimodal", "docling", "whisper"]
+
+dependencies = [
+    # ── Server ────────────────────────────────────────────────────────────────
+    "fastapi>=0.111.0",
+    "uvicorn[standard]>=0.29.0",
+    "python-multipart>=0.0.9",
+    "pydantic>=2.7.0",
+    "pydantic-settings>=2.3.0",
+
+    # ── Document Parsing ──────────────────────────────────────────────────────
+    "docling>=2.0.0",               # IBM Docling — replaces Marker + Surya OCR
+
+    # ── Image Understanding ───────────────────────────────────────────────────
+    "transformers>=4.45.0",         # Qwen2-VL support
+    "accelerate>=0.33.0",
+    "qwen-vl-utils>=0.0.8",
+    "Pillow>=10.0.0",
+
+    # ── Audio / Video ─────────────────────────────────────────────────────────
+    "faster-whisper>=1.0.3",        # Distil-Whisper Large-v3 backend
+    "ffmpeg-python>=0.2.0",
+
+    # ── Web Crawling ──────────────────────────────────────────────────────────
+    "crawl4ai>=0.4.0",              # async-first, LLM-native crawler
+
+    # ── Utilities ─────────────────────────────────────────────────────────────
+    "huggingface-hub>=0.23.0",
+    "torch>=2.3.0",
+]
+
+[project.optional-dependencies]
+diarization = [
+    "pyannote.audio>=3.1.1",        # speaker diarization (requires HF token)
+]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "httpx>=0.27.0",                # async test client
+    "ruff>=0.4.0",
+    "mypy>=1.10.0",
+]
+
+[project.scripts]
+alchemy = "server:app"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["alchemy*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.mypy]
+python_version = "3.10"
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
