@@ -2,7 +2,7 @@
 
 **A modern, async-first universal data ingestion and parsing platform for GenAI applications.**
 
-> A unified, async-capable data ingestion architecture using the best open-source tools available in 2025.
+> A unified, async-capable data ingestion architecture using the best open-source tools available in 2026.
 
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.111%2B-green)](https://fastapi.tiangolo.com)
